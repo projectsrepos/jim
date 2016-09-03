@@ -1,4 +1,4 @@
-Jim is a lightweight instant messaging (IM) server designed for mobile, it supports chat and push messages base on the MQTT protocol. 
+Jim is a Java instant messaging (IM) server designed for mobile, it supports chat and push messages base on the MQTT protocol. 
 
 <p><b>MQTT Protocol</b></p>
 MQTT is an extremely simple and lightweight messaging protocol. The publish/subscribe architecture is designed to make it easy to build loosely-coupled HTML5, native, and hybrid mobile applications. MQTT is ideal for use in constrained environments where network bandwidth is low, or where there is high latency, and with remote devices that might have limited processing capabilities and memory.
