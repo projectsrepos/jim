@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 务必配置正确namespace 就是所映射的实体类 -->
+<mapper namespace="mapper.taskInfo">
+
+    <resultMap type="TaskInfo" id="taskInfoMap">
+        <id column="id" property="id"/>
+        <result column="appId" property="appId"/>
+        <result column="tenantId" property="tenantId"/>
+        <result column="operatorid" property="operatorid"/>
+        <result column="pushType" property="pushType"/>
+        <result column="pushIds" property="pushIds"/>
+        <result column="content" property="content"/>
+        <result column="pushContent" property="pushContent"/>
+        <result column="startTime" property="startTime"/>
+        <result column="endTime" property="endTime"/>
+        <result column="timerStrategy" property="timerStrategy"/>
+        <result column="created" property="created"/>
+        <result column="createdBy" property="createdBy"/>
+        <result column="updated" property="updated"/>
+        <result column="updatedBy" property="updatedBy"/>
+        <result column="TimerStatus" property="TimerStatus"/>
+    </resultMap>
+    
+    <!-- 新增 -->
+    <insert id="add" parameterType="TaskInfo" keyProperty="id"
+        useGeneratedKeys="true">
+        insert into task_info(
+            appId,
+            tenantId,
+            operatorid,
+            pushType,
+            pushIds,
+            content,
+            pushContent,
+            startTime,
+            endTime,
+            timerStrategy,
+            created,
+            createdBy,
+            updated,
+            updatedBy,
+            TimerStatus
+        )
+        values
+        (
+            #{appId},
+            #{tenantId},
+            #{operatorid},
+            #{pushType},
+            #{pushIds},
+            #{content},
+            #{pushContent},
+            #{startTime},
+            #{endTime},
+            #{timerStrategy},
+            #{created},
+            #{createdBy},
+            #{updated},
+            #{updatedBy},
+            #{TimerStatus}
+        )
+    </insert>
+    
+    <!-- 更新 -->
+    <update id="update" parameterType="TaskInfo">
+        update task_info set 
+            appId=#{appId},
+            tenantId=#{tenantId},
+            operatorid=#{operatorid},
+            pushType=#{pushType},
+            pushIds=#{pushIds},
+            content=#{content},
+            pushContent=#{pushContent},
+            startTime=#{startTime},
+            endTime=#{endTime},
+            timerStrategy=#{timerStrategy},
+            created=#{created},
+            createdBy=#{createdBy},
+            updated=#{updated},
+            updatedBy=#{updatedBy},
+            TimerStatus=#{TimerStatus}
+        where 
+            id=#{id}
+    </update>
+
+    <!-- 根据ID删除 -->
+    <delete id="removeById" parameterType="int">
+        delete from task_info where id = #{id}
+    </delete>
+    
+    <!-- 根据条件删除 -->
+    <delete id="remove" parameterType="TaskInfo">
+        delete from task_info where 1=1
+        <if test="id != null">
+            and id=#{id}
+        </if>
+        <if test="appId != null">
+            and appId=#{appId}
+        </if>
+        <if test="tenantId != null">
+            and tenantId=#{tenantId}
+        </if>
+        <if test="operatorid != null">
+            and operatorid=#{operatorid}
+        </if>
+        <if test="pushType != null">
+            and pushType=#{pushType}
+        </if>
+        <if test="pushIds != null">
+            and pushIds=#{pushIds}
+        </if>
+        <if test="content != null">
+            and content=#{content}
+        </if>
+        <if test="pushContent != null">
+            and pushContent=#{pushContent}
+        </if>
+        <if test="startTime != null">
+            and startTime=#{startTime}
+        </if>
+        <if test="endTime != null">
+            and endTime=#{endTime}
+        </if>
+        <if test="timerStrategy != null">
+            and timerStrategy=#{timerStrategy}
+        </if>
+        <if test="created != null">
+            and created=#{created}
+        </if>
+        <if test="createdBy != null">
+            and createdBy=#{createdBy}
+        </if>
+        <if test="updated != null">
+            and updated=#{updated}
+        </if>
+        <if test="updatedBy != null">
+            and updatedBy=#{updatedBy}
+        </if>
+        <if test="TimerStatus != null">
+            and TimerStatus=#{TimerStatus}
+        </if>
+    </delete>
+
+    <!-- 根据id查询 -->
+    <select id="getById" resultMap="taskInfoMap" parameterType="int">
+        select * from task_info where id =#{id}
+    </select>
+
+    <!-- 条件查询拼接 -->
+    <sql id="findResultsWhere">
+        <where>
+            <if test="params.id != null">
+                and id = #{params.id}
+            </if>
+            <if test="params.appId != null">
+                and appId = #{params.appId}
+            </if>
+            <if test="params.tenantId != null">
+                and tenantId = #{params.tenantId}
+            </if>
+            <if test="params.operatorid != null">
+                and operatorid = #{params.operatorid}
+            </if>
+            <if test="params.pushType != null">
+                and pushType = #{params.pushType}
+            </if>
+            <if test="params.pushIds != null">
+                and pushIds = #{params.pushIds}
+            </if>
+            <if test="params.content != null">
+                and content = #{params.content}
+            </if>
+            <if test="params.pushContent != null">
+                and pushContent = #{params.pushContent}
+            </if>
+            <if test="params.startTime != null">
+                and startTime = #{params.startTime}
+            </if>
+            <if test="params.endTime != null">
+                and endTime = #{params.endTime}
+            </if>
+            <if test="params.timerStrategy != null">
+                and timerStrategy = #{params.timerStrategy}
+            </if>
+            <if test="params.created != null">
+                and created = #{params.created}
+            </if>
+            <if test="params.createdBy != null">
+                and createdBy = #{params.createdBy}
+            </if>
+            <if test="params.updated != null">
+                and updated = #{params.updated}
+            </if>
+            <if test="params.updatedBy != null">
+                and updatedBy = #{params.updatedBy}
+            </if>
+            <if test="params.TimerStatus != null">
+                and TimerStatus = #{params.TimerStatus}
+            </if>
+        </where>
+    </sql>
+    
+    <!-- 条件查询 -->
+    <select id="findResults" resultMap="taskInfoMap" parameterType="map">
+        select * from task_info  
+        <include refid="findResultsWhere"></include>
+        <if test="params.page != null">
+        limit #{params.page.from}, #{params.page.size}
+        </if>
+    </select>
+
+    <!-- 条件查询结果数量 -->
+    <select id="findResultCount" resultType="int" parameterType="map">
+        select count(1) from task_info  
+         <include refid="findResultsWhere"></include>
+    </select>
+    
+    <!-- 批量插入 -->
+    <insert id="addBatch" parameterType="iterator" useGeneratedKeys="true">
+        insert into task_info(
+            appId,
+            tenantId,
+            operatorid,
+            pushType,
+            pushIds,
+            content,
+            pushContent,
+            startTime,
+            endTime,
+            timerStrategy,
+            created,
+            createdBy,
+            updated,
+            updatedBy,
+            TimerStatus
+        )
+        values
+        <foreach collection="array" item="item" separator="," >
+        (
+            #{item.appId},
+            #{item.tenantId},
+            #{item.operatorid},
+            #{item.pushType},
+            #{item.pushIds},
+            #{item.content},
+            #{item.pushContent},
+            #{item.startTime},
+            #{item.endTime},
+            #{item.timerStrategy},
+            #{item.created},
+            #{item.createdBy},
+            #{item.updated},
+            #{item.updatedBy},
+            #{item.TimerStatus}
+        )
+        </foreach>
+    </insert>
+    
+</mapper>

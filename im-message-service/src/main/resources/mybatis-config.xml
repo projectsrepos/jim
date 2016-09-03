@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//ibatis.apache.org//DTD Config 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-config.dtd">
+<configuration>
+    <settings>
+        <setting name="cacheEnabled" value="true" />
+        <setting name="lazyLoadingEnabled" value="true" />
+        <setting name="multipleResultSetsEnabled" value="true" />
+        <setting name="useColumnLabel" value="true" />
+        <setting name="useGeneratedKeys" value="false" />
+        <setting name="autoMappingBehavior" value="PARTIAL" />
+        <setting name="defaultExecutorType" value="SIMPLE" />
+        <setting name="defaultStatementTimeout" value="25000" />
+        <setting name="safeRowBoundsEnabled" value="false" />
+        <setting name="mapUnderscoreToCamelCase" value="false" />
+        <setting name="localCacheScope" value="SESSION" />
+        <setting name="jdbcTypeForNull" value="NULL" />
+        <setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString" />
+        <!-- changes from the defaults -->
+        <setting name="lazyLoadingEnabled" value="false" />
+    </settings>
+
+    <typeAliases>
+        <typeAlias type="com.jim.im.db.entity.message.AppCert"
+            alias="AppCert" />
+    </typeAliases>
+    <mappers>
+        <mapper resource="mapper/appCert.xml" />
+    </mappers>
+
+</configuration>
+

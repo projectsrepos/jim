@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.jim</groupId>
+    <artifactId>im</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.deploy>deploy</project.deploy>
+        <mybatis.version>3.2.8</mybatis.version>
+        <spring.version>4.2.5.RELEASE</spring.version>
+        <slf4j.version>1.7.10</slf4j.version>
+        <log4j.version>1.2.17</log4j.version>
+        <shiro.version>1.2.3</shiro.version>
+        <jersey.version>2.17</jersey.version>
+        <boot.version>1.3.3.RELEASE</boot.version>
+        <jackson.version>2.5.0</jackson.version>
+        <guava.version>18.0</guava.version>
+        <netty.version>4.1.0.Beta5</netty.version>
+        <junit.version>4.12</junit.version>
+        <java.version>1.8</java.version>
+        <log4j.version>1.2.17</log4j.version>
+        <slf4j.version>1.7.19</slf4j.version>
+        <hornetq.version>2.3.10.Final</hornetq.version>
+    </properties>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>${boot.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+<!--
+    <repositories>
+        <repository>
+            <id>nexus</id>
+            <name>local private nexus</name>
+            <url>http://172.16.0.23:8888/nexus/content/groups/public/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>nexus</id>
+            <name>local private nexus</name>
+            <url>http://172.16.0.23:8888/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+-->
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.2</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${boot.version}</version>
+
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <nonFilteredFileExtensions>
+                        <nonFilteredFileExtension>p12</nonFilteredFileExtension>
+                    </nonFilteredFileExtensions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>repo</id>
+            <name>Repository Nam</name>
+            <url>file://d:/repo</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <modules>
+        <module>im-core</module>
+        <module>im-mqtt-broker</module>
+        <module>im-mqtt-client</module>
+        <module>im-message-service</module>
+        <module>im-login-manager</module>
+        <module>im-group-manager</module>
+        <module>im-offline-message-service</module>
+        <module>im-test</module>
+        <module>im-topic-manager</module>
+        <module>im-task-manager</module>
+    </modules>
+</project>

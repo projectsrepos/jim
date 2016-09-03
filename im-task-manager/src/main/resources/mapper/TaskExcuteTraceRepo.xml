@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 务必配置正确namespace 就是�?映射的实体类 -->
+<mapper namespace="mapper.taskExcuteTrace">
+
+    <resultMap type="TaskExcuteTrace" id="taskExcuteTraceMap">
+        <id column="id" property="id"/>
+        <result column="groupName" property="groupName"/>
+        <result column="taskId" property="taskId"/>
+        <result column="quartzKey" property="quartzKey"/>
+        <result column="excuteTime" property="excuteTime"/>
+        <result column="status" property="status"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+    
+    <!-- 新增 -->
+    <insert id="add" parameterType="TaskExcuteTrace" keyProperty="id"
+        useGeneratedKeys="true">
+        insert into task_excute_trace(
+            groupName,
+            taskId,
+            quartzKey,
+            excuteTime,
+            status,
+            remark
+        )
+        values
+        (
+            #{groupName},
+            #{taskId},
+            #{quartzKey},
+            #{excuteTime},
+            #{status},
+            #{remark}
+        )
+    </insert>
+    
+    <!-- 更新 -->
+    <update id="update" parameterType="TaskExcuteTrace">
+        update task_excute_trace set 
+            groupName=#{groupName},
+            taskId=#{taskId},
+            quartzKey=#{quartzKey},
+            excuteTime=#{excuteTime},
+            status=#{status},
+            remark=#{remark}
+        where 
+            id=#{id}
+    </update>
+
+    <!-- 根据ID删除 -->
+    <delete id="removeById" parameterType="int">
+        delete from task_excute_trace where id = #{id}
+    </delete>
+    
+    <!-- 根据条件删除 -->
+    <delete id="remove" parameterType="TaskExcuteTrace">
+        delete from task_excute_trace where 1=1
+        <if test="id != null">
+            and id=#{id}
+        </if>
+        <if test="groupName != null">
+            and groupName=#{groupName}
+        </if>
+        <if test="taskId != null">
+            and taskId=#{taskId}
+        </if>
+        <if test="quartzKey != null">
+            and quartzKey=#{quartzKey}
+        </if>
+        <if test="excuteTime != null">
+            and excuteTime=#{excuteTime}
+        </if>
+        <if test="status != null">
+            and status=#{status}
+        </if>
+        <if test="remark != null">
+            and remark=#{remark}
+        </if>
+    </delete>
+
+    <!-- 根据id查询 -->
+    <select id="getById" resultMap="taskExcuteTraceMap" parameterType="int">
+        select * from task_excute_trace where id =#{id}
+    </select>
+
+    <!-- 条件查询拼接 -->
+    <sql id="findResultsWhere">
+        <where>
+            <if test="params.id != null">
+                and id = #{params.id}
+            </if>
+            <if test="params.groupName != null">
+                and groupName = #{params.groupName}
+            </if>
+            <if test="params.taskId != null">
+                and taskId = #{params.taskId}
+            </if>
+            <if test="params.quartzKey != null">
+                and quartzKey = #{params.quartzKey}
+            </if>
+            <if test="params.excuteTime != null">
+                and excuteTime = #{params.excuteTime}
+            </if>
+            <if test="params.status != null">
+                and status = #{params.status}
+            </if>
+            <if test="params.remark != null">
+                and remark = #{params.remark}
+            </if>
+        </where>
+    </sql>
+    
+    <!-- 条件查询 -->
+    <select id="findResults" resultMap="taskExcuteTraceMap" parameterType="map">
+        select * from task_excute_trace  
+        <include refid="findResultsWhere"></include>
+        <if test="params.page != null">
+        limit #{params.page.from}, #{params.page.size}
+        </if>
+    </select>
+
+    <!-- 条件查询结果数量 -->
+    <select id="findResultCount" resultType="int" parameterType="map">
+        select count(1) from task_excute_trace  
+         <include refid="findResultsWhere"></include>
+    </select>
+    
+    <!-- 批量插入 -->
+    <insert id="addBatch" parameterType="iterator" useGeneratedKeys="true">
+        insert into task_excute_trace(
+            groupName,
+            taskId,
+            quartzKey,
+            excuteTime,
+            status,
+            remark
+        )
+        values
+        <foreach collection="array" item="item" separator="," >
+        (
+            #{item.groupName},
+            #{item.taskId},
+            #{item.quartzKey},
+            #{item.excuteTime},
+            #{item.status},
+            #{item.remark}
+        )
+        </foreach>
+    </insert>
+    
+</mapper>

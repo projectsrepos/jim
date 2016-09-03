@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 务必配置正确namespace 就是所映射的实体类 -->
+<mapper namespace="mapper.appCert">
+
+    <resultMap type="AppCert" id="appCertMap">
+        <id column="id" property="id"/>
+        <result column="app_id" property="appId"/>
+        <result column="production_cert" property="productionCert"/>
+        <result column="production_cert_pwd" property="productionCertPwd"/>
+        <result column="dev_cert" property="devCert"/>
+        <result column="dev_cert_pwd" property="devCertPwd"/>
+        <result column="production_cert_enabled" property="productionCertEnabled"/>
+        <result column="conn_count" property="connCount"/>
+    </resultMap>
+    
+    <!-- 新增 -->
+    <insert id="add" parameterType="AppCert" keyProperty="id"
+        useGeneratedKeys="true">
+        insert into app_cert(
+            app_id,
+            production_cert,
+            production_cert_pwd,
+            dev_cert,
+            dev_cert_pwd,
+            production_cert_enabled,
+            conn_count
+        )
+        values
+        (
+            #{appId},
+            #{productionCert},
+            #{productionCertPwd},
+            #{devCert},
+            #{devCertPwd},
+            #{productionCertEnabled},
+            #{connCount}
+        )
+    </insert>
+    
+    <!-- 更新 -->
+    <update id="update" parameterType="AppCert">
+        update app_cert set 
+            app_id=#{appId},
+            production_cert=#{productionCert},
+            production_cert_pwd=#{productionCertPwd},
+            dev_cert=#{devCert},
+            dev_cert_pwd=#{devCertPwd},
+            production_cert_enabled=#{productionCertEnabled},
+            conn_count=#{connCount}
+        where 
+            id=#{id}
+    </update>
+
+    <!-- 根据ID删除 -->
+    <delete id="removeById" parameterType="int">
+        delete from app_cert where id = #{id}
+    </delete>
+    
+    <!-- 根据条件删除 -->
+    <delete id="remove" parameterType="AppCert">
+        delete from app_cert where 1=1
+        <if test="id != null">
+            and id=#{id}
+        </if>
+        <if test="appId != null">
+            and app_id=#{appId}
+        </if>
+        <if test="productionCert != null">
+            and production_cert=#{productionCert}
+        </if>
+        <if test="productionCertPwd != null">
+            and production_cert_pwd=#{productionCertPwd}
+        </if>
+        <if test="devCert != null">
+            and dev_cert=#{devCert}
+        </if>
+        <if test="devCertPwd != null">
+            and dev_cert_pwd=#{devCertPwd}
+        </if>
+        <if test="productionCertEnabled != null">
+            and production_cert_enabled=#{productionCertEnabled}
+        </if>
+        <if test="connCount != null">
+            and conn_count=#{connCount}
+        </if>
+    </delete>
+
+    <!-- 根据id查询 -->
+    <select id="getById" resultMap="appCertMap" parameterType="int">
+        select * from app_cert where id =#{id}
+    </select>
+
+    <!-- 条件查询拼接 -->
+    <sql id="findResultsWhere">
+        <where>
+            <if test="params.id != null">
+                and id = #{params.id}
+            </if>
+            <if test="params.appId != null">
+                and app_id = #{params.appId}
+            </if>
+            <if test="params.productionCert != null">
+                and production_cert = #{params.productionCert}
+            </if>
+            <if test="params.productionCertPwd != null">
+                and production_cert_pwd = #{params.productionCertPwd}
+            </if>
+            <if test="params.devCert != null">
+                and dev_cert = #{params.devCert}
+            </if>
+            <if test="params.devCertPwd != null">
+                and dev_cert_pwd = #{params.devCertPwd}
+            </if>
+            <if test="params.productionCertEnabled != null">
+                and production_cert_enabled = #{params.productionCertEnabled}
+            </if>
+            <if test="params.connCount != null">
+                and conn_count = #{params.connCount}
+            </if>
+        </where>
+    </sql>
+    
+    <!-- 按example条件查询拼接 -->
+    <sql id="findByExampleWhere">
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="appId != null">
+                and app_id = #{appId}
+            </if>
+            <if test="productionCert != null">
+                and production_cert = #{productionCert}
+            </if>
+            <if test="productionCertPwd != null">
+                and production_cert_pwd = #{productionCertPwd}
+            </if>
+            <if test="devCert != null">
+                and dev_cert = #{devCert}
+            </if>
+            <if test="devCertPwd != null">
+                and dev_cert_pwd = #{devCertPwd}
+            </if>
+            <if test="productionCertEnabled != null">
+                and production_cert_enabled = #{productionCertEnabled}
+            </if>
+            <if test="connCount != null">
+                and conn_count = #{connCount}
+            </if>
+        </where>
+    </sql>
+    
+    <!-- 条件查询 -->
+    <select id="findResults" resultMap="appCertMap" parameterType="map">
+        select * from app_cert  
+        <include refid="findResultsWhere"></include>
+        <if test="params.page != null">
+        limit #{params.page.from}, #{params.page.size}
+        </if>
+    </select>
+    
+    <!-- 按实体查询 -->
+    <select id="findByExample" resultMap="appCertMap" parameterType="AppCert">
+        select * from app_cert  
+        <include refid="findByExampleWhere"></include>
+    </select>
+    
+    <!-- 按实体查询,返回count -->
+    <select id="findByExampleCount" resultType="int" parameterType="AppCert">
+        select count(1) from app_cert  
+        <include refid="findByExampleWhere"></include>
+    </select>
+
+    <!-- 条件查询结果数量 -->
+    <select id="findResultCount" resultType="int" parameterType="map">
+        select count(1) from app_cert  
+         <include refid="findResultsWhere"></include>
+    </select>
+    
+    <!-- 批量插入 -->
+    <insert id="addBatch" parameterType="iterator" useGeneratedKeys="true">
+        insert into app_cert(
+            app_id,
+            production_cert,
+            production_cert_pwd,
+            dev_cert,
+            dev_cert_pwd,
+            production_cert_enabled,
+            conn_count
+        )
+        values
+        <foreach collection="array" item="item" separator="," >
+        (
+            #{item.appId},
+            #{item.productionCert},
+            #{item.productionCertPwd},
+            #{item.devCert},
+            #{item.devCertPwd},
+            #{item.productionCertEnabled},
+            #{item.connCount}
+        )
+        </foreach>
+    </insert>
+    
+</mapper>

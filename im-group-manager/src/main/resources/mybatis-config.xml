@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//ibatis.apache.org//DTD Config 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-config.dtd">
+<configuration>
+    <typeAliases>
+        <typeAlias type="com.jim.im.db.entity.group.Group" alias="Group"/>
+        <typeAlias type="com.jim.im.db.entity.group.User" alias="User"/>
+        <typeAlias type="com.jim.im.db.entity.group.GroupUserMap" alias="GroupUserMap"/>
+    </typeAliases>
+    <mappers>
+        <mapper resource="mapper/group.xml"/>
+        <mapper resource="mapper/user.xml"/>
+        <mapper resource="mapper/groupUserMap.xml"/>
+    </mappers>
+</configuration>

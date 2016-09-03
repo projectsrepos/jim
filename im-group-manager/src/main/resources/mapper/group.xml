@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 务必配置正确namespace 就是所映射的实体类 -->
+<mapper namespace="mapper.group">
+
+    <resultMap type="Group" id="groupMap">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="group_type" property="groupType"/>
+        <result column="enter_group_strategy" property="enterGroupStrategy"/>
+        <result column="pull_user_strategy" property="pullUserStrategy"/>
+        <result column="description" property="description"/>
+        <result column="app_id" property="appId"/>
+        <result column="tenant_id" property="tenantId"/>
+        <result column="created" property="created"/>
+        <result column="created_by" property="createdBy"/>
+        <result column="updated" property="updated"/>
+        <result column="updated_by" property="updatedBy"/>
+    </resultMap>
+    
+    <!-- 新增 -->
+    <insert id="add" parameterType="Group" keyProperty="id"
+        useGeneratedKeys="true">
+        insert into im_group(
+            name,
+            group_type,
+            enter_group_strategy,
+            pull_user_strategy,
+            description,
+            app_id,
+            tenant_id,
+            created,
+            created_by,
+            updated,
+            updated_by
+        )
+        values
+        (
+            #{name},
+            #{groupType},
+            #{enterGroupStrategy},
+            #{pullUserStrategy},
+            #{description},
+            #{appId},
+            #{tenantId},
+            #{created},
+            #{createdBy},
+            #{updated},
+            #{updatedBy}
+        )
+    </insert>
+    
+    <!-- 更新 -->
+    <update id="update" parameterType="Group">
+        update im_group set 
+            name=#{name},
+            group_type=#{groupType},
+            enter_group_strategy=#{enterGroupStrategy},
+            pull_user_strategy=#{pullUserStrategy},
+            description=#{description},
+            app_id=#{appId},
+            tenant_id=#{tenantId},
+            created=#{created},
+            created_by=#{createdBy},
+            updated=#{updated},
+            updated_by=#{updatedBy}
+        where 
+            id=#{id}
+    </update>
+
+    <!-- 根据ID删除 -->
+    <delete id="removeById" parameterType="int">
+        delete from im_group where id = #{id}
+    </delete>
+    
+    <!-- 根据条件删除 -->
+    <delete id="remove" parameterType="Group">
+        delete from im_group where 1=1
+        <if test="id != null">
+            and id=#{id}
+        </if>
+        <if test="name != null">
+            and name=#{name}
+        </if>
+        <if test="groupType != null">
+            and group_type=#{groupType}
+        </if>
+        <if test="enterGroupStrategy != null">
+            and enter_group_strategy=#{enterGroupStrategy}
+        </if>
+        <if test="pullUserStrategy != null">
+            and pull_user_strategy=#{pullUserStrategy}
+        </if>
+        <if test="description != null">
+            and description=#{description}
+        </if>
+        <if test="appId != null">
+            and app_id=#{appId}
+        </if>
+        <if test="tenantId != null">
+            and tenant_id=#{tenantId}
+        </if>
+        <if test="created != null">
+            and created=#{created}
+        </if>
+        <if test="createdBy != null">
+            and created_by=#{createdBy}
+        </if>
+        <if test="updated != null">
+            and updated=#{updated}
+        </if>
+        <if test="updatedBy != null">
+            and updated_by=#{updatedBy}
+        </if>
+    </delete>
+
+    <!-- 根据id查询 -->
+    <select id="getById" resultMap="groupMap" parameterType="int">
+        select * from im_group where id =#{id}
+    </select>
+
+    <!-- 条件查询拼接 -->
+    <sql id="findResultsWhere">
+        <where>
+            <if test="params.id != null">
+                and id = #{params.id}
+            </if>
+            <if test="params.name != null">
+                and name = #{params.name}
+            </if>
+            <if test="params.groupType != null">
+                and group_type = #{params.groupType}
+            </if>
+            <if test="params.enterGroupStrategy != null">
+                and enter_group_strategy = #{params.enterGroupStrategy}
+            </if>
+            <if test="params.pullUserStrategy != null">
+                and pull_user_strategy = #{params.pullUserStrategy}
+            </if>
+            <if test="params.description != null">
+                and description = #{params.description}
+            </if>
+            <if test="params.appId != null">
+                and app_id = #{params.appId}
+            </if>
+            <if test="params.tenantId != null">
+                and tenant_id = #{params.tenantId}
+            </if>
+            <if test="params.created != null">
+                and created = #{params.created}
+            </if>
+            <if test="params.createdBy != null">
+                and created_by = #{params.createdBy}
+            </if>
+            <if test="params.updated != null">
+                and updated = #{params.updated}
+            </if>
+            <if test="params.updatedBy != null">
+                and updated_by = #{params.updatedBy}
+            </if>
+        </where>
+    </sql>
+    
+    <!-- 条件查询 -->
+    <select id="findResults" resultMap="groupMap" parameterType="map">
+        select * from im_group  
+        <include refid="findResultsWhere"></include>
+        <if test="params.page != null">
+        limit #{params.page.from}, #{params.page.size}
+        </if>
+    </select>
+
+    <!-- 条件查询结果数量 -->
+    <select id="findResultCount" resultType="int" parameterType="map">
+        select count(1) from im_group  
+         <include refid="findResultsWhere"></include>
+    </select>
+    
+    <!-- 批量插入 -->
+    <insert id="addBatch" parameterType="iterator" useGeneratedKeys="true">
+        insert into im_group(
+            name,
+            group_type,
+            enter_group_strategy,
+            pull_user_strategy,
+            description,
+            app_id,
+            tenant_id,
+            created,
+            created_by,
+            updated,
+            updated_by
+        )
+        values
+        <foreach collection="array" item="item" separator="," >
+        (
+            #{item.name},
+            #{item.groupType},
+            #{item.enterGroupStrategy},
+            #{item.pullUserStrategy},
+            #{item.description},
+            #{item.appId},
+            #{item.tenantId},
+            #{item.created},
+            #{item.createdBy},
+            #{item.updated},
+            #{item.updatedBy}
+        )
+        </foreach>
+    </insert>
+    
+     <!-- 按example条件查询拼接 -->
+    <sql id="findByExampleWhere">
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="name != null">
+                and name = #{name}
+            </if>
+            <if test="groupType != null">
+                and group_type = #{groupType}
+            </if>
+            <if test="enterGroupStrategy != null">
+                and enter_group_strategy = #{enterGroupStrategy}
+            </if>
+            <if test="pullUserStrategy != null">
+                and pull_user_strategy = #{pullUserStrategy}
+            </if>
+            <if test="description != null">
+                and description = #{description}
+            </if>
+            <if test="appId != null">
+                and app_id = #{appId}
+            </if>
+            <if test="tenantId != null">
+                and tenant_id = #{tenantId}
+            </if>
+            <if test="created != null">
+                and created = #{created}
+            </if>
+            <if test="createdBy != null">
+                and created_by = #{createdBy}
+            </if>
+            <if test="updated != null">
+                and updated = #{updated}
+            </if>
+            <if test="updatedBy != null">
+                and updated_by = #{updatedBy}
+            </if>
+        </where>
+    </sql>
+    
+    <!-- 按实体查询 -->
+    <select id="findByExample" resultMap="groupMap" parameterType="Group">
+        select * from im_group  
+        <include refid="findByExampleWhere"></include>
+    </select>
+    
+    <!-- 按实体查询,返回count -->
+    <select id="findByExampleCount" resultType="int" parameterType="Group">
+        select count(1) from im_group  
+        <include refid="findByExampleWhere"></include>
+    </select>
+    
+    <select id="findGroupEntered" resultMap="groupMap" parameterType="map" >
+        select * from im_group g where g.app_id = #{appId} and g.tenant_id = #{tenantId} and exists 
+        ( 
+            select 1 from group_user_map m where m.app_id = #{appId} and m.tenant_id = #{tenantId} and m.user_id = #{userId} and m.group_id = g.id
+        )
+    </select>
+
+    
+</mapper>

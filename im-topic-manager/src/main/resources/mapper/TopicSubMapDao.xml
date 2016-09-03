@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 务必配置正确namespace 就是所映射的实体类 -->
+<mapper namespace="com.xuanwu.im.topic.dao.TopicSubMapDao">
+
+    <resultMap type="TopicSubMap" id="TopicSubMapMap">
+        <id column="id" property="id"/>
+        <result column="topic_id" property="topicId"/>
+        <result column="topic_name" property="topicName"/>
+        <result column="topic_type" property="topicType"/>
+        <result column="sub_id" property="subId"/>
+        <result column="app_id" property="appId"/>
+        <result column="tenant_id" property="tenantId"/>
+        <result column="created" property="created"/>
+        <result column="created_by" property="createdBy"/>
+        <result column="updated" property="updated"/>
+        <result column="updated_by" property="updatedBy"/>
+    </resultMap>
+
+    <!-- 新增 -->
+    <insert id="add" parameterType="TopicSubMap" keyProperty="id"
+            useGeneratedKeys="true">
+        insert into topic_sub_map(
+            topic_id,
+            topic_name,
+            topic_type,
+            app_id,
+            tenant_id,
+            sub_id,
+            created,
+            created_by,
+            updated,
+            updated_by
+        )
+        values
+        (
+            #{topicId},
+            #{topicName},
+            #{topicType},
+            #{appId},
+            #{tenantId},
+            #{subId},
+            #{created},
+            #{createdBy},
+            #{updated},
+            #{updatedBy}
+        )
+    </insert>
+
+    <!-- 更新 -->
+    <update id="update" parameterType="TopicSubMap">
+        update topic_sub_map set 
+            topic_id=#{topicId},
+            topic_name=#{topicName},
+            topic_type=#{topicType},
+            app_id=#{appId},
+            tenant_id=#{tenantId},
+            sub_id=#{subId},
+            created=#{created},
+            created_by=#{createdBy},
+            updated=#{updated},
+            updated_by=#{updatedBy}
+        where 
+    </update>
+
+    <!-- 根据ID删除 -->
+    <delete id="removeById" parameterType="int">
+        delete from topic_sub_map where topic_id = #{id}
+    </delete>
+
+    <!-- 根据条件删除 -->
+    <delete id="remove" parameterType="TopicSubMap">
+        delete from topic_sub_map where 1=1
+        <if test="topicId != null">
+            and topic_id=#{topicId}
+        </if>
+        <if test="topicName != null">
+            and topic_name=#{topicName}
+        </if>
+        <if test="topicType != null">
+            and topic_type=#{topicType}
+        </if>
+        <if test="appId != null">
+            and app_id=#{appId}
+        </if>
+        <if test="tenantId != null">
+            and tenant_id=#{tenantId}
+        </if>
+        <if test="subId != null">
+            and sub_id=#{subId}
+        </if>
+        <if test="created != null">
+            and created=#{created}
+        </if>
+        <if test="createdBy != null">
+            and created_by=#{createdBy}
+        </if>
+        <if test="updated != null">
+            and updated=#{updated}
+        </if>
+        <if test="updatedBy != null">
+            and updated_by=#{updatedBy}
+        </if>
+    </delete>
+
+    <delete id="removeByTopicNames" parameterType="collection">
+        delete from topic_sub_map where topic_name in
+        <foreach collection="list" item="topicName" separator="," open="(" close=")">
+            #{topicName}
+        </foreach>
+    </delete>
+
+    <!-- 根据topic_id查询 -->
+    <select id="getById" resultMap="TopicSubMapMap" parameterType="int">
+        select * from topic_sub_map where topic_id =#{id}
+    </select>
+
+    <!-- 条件查询拼接 -->
+    <sql id="findResultsWhere">
+        <where>
+            <if test="params.topicId != null">
+                and topic_id = #{params.topicId}
+            </if>
+            <if test="params.topicName != null">
+                and topic_name = #{params.topicName}
+            </if>
+            <if test="params.topicType != null">
+                and topic_type = #{params.topicType}
+            </if>
+            <if test="params.appId != null">
+                and app_id = #{params.appId}
+            </if>
+            <if test="params.tenantId != null">
+                and tenant_id = #{params.tenantId}
+            </if>
+            <if test="params.subId != null">
+                and sub_id = #{params.subId}
+            </if>
+            <if test="params.created != null">
+                and created = #{params.created}
+            </if>
+            <if test="params.createdBy != null">
+                and created_by = #{params.createdBy}
+            </if>
+            <if test="params.updated != null">
+                and updated = #{params.updated}
+            </if>
+            <if test="params.updatedBy != null">
+                and updated_by = #{params.updatedBy}
+            </if>
+        </where>
+    </sql>
+
+    <!-- 按example条件查询拼接 -->
+    <sql id="findByExampleWhere">
+        <where>
+            <if test="topicId != null">
+                and topic_id = #{topicId}
+            </if>
+            <if test="topicName != null">
+                and topic_name = #{topicName}
+            </if>
+            <if test="topicType != null">
+                and topic_type = #{topicType}
+            </if>
+            <if test="appId != null">
+                and app_id = #{appId}
+            </if>
+            <if test="tenantId != null">
+                and tenant_id = #{tenantId}
+            </if>
+            <if test="subId != null">
+                and sub_id = #{subId}
+            </if>
+            <if test="created != null">
+                and created = #{created}
+            </if>
+            <if test="createdBy != null">
+                and created_by = #{createdBy}
+            </if>
+            <if test="updated != null">
+                and updated = #{updated}
+            </if>
+            <if test="updatedBy != null">
+                and updated_by = #{updatedBy}
+            </if>
+        </where>
+    </sql>
+
+    <!-- 条件查询 -->
+    <select id="findResults" resultMap="TopicSubMapMap" parameterType="map">
+        select * from topic_sub_map
+        <include refid="findResultsWhere"></include>
+        <if test="params.page != null">
+            limit #{params.page.from}, #{params.page.size}
+        </if>
+    </select>
+
+    <!-- 按实体查询 -->
+    <select id="findByExample" resultMap="TopicSubMapMap" parameterType="TopicSubMap">
+        select * from topic_sub_map
+        <include refid="findByExampleWhere"></include>
+    </select>
+
+    <!-- 按实体查询,返回count -->
+    <select id="findByExampleCount" resultType="int" parameterType="TopicSubMap">
+        select count(1) from topic_sub_map
+        <include refid="findByExampleWhere"></include>
+    </select>
+
+    <!-- 条件查询结果数量 -->
+    <select id="findResultCount" resultType="int" parameterType="map">
+        select count(1) from topic_sub_map
+        <include refid="findResultsWhere"></include>
+    </select>
+
+    <!-- 批量插入 -->
+    <insert id="addBatch" parameterType="iterator" useGeneratedKeys="true">
+        insert into topic_sub_map(
+        topic_id,
+        topic_name,
+        topic_type,
+        app_id,
+        tenant_id,
+        sub_id,
+        created,
+        created_by,
+        updated,
+        updated_by
+        )
+        values
+        <foreach collection="array" item="item" separator=",">
+            (
+            #{item.topicId},
+            #{item.topicName},
+            #{item.topicType},
+            #{item.appId},
+            #{item.tenantId},
+            #{item.subId},
+            #{item.created},
+            #{item.createdBy},
+            #{item.updated},
+            #{item.updatedBy}
+            )
+        </foreach>
+    </insert>
+
+</mapper>

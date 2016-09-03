@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 务必配置正确namespace 就是所映射的实体类 -->
+<mapper namespace="mapper.groupUserMap">
+
+    <resultMap type="GroupUserMap" id="groupUserMapMap">
+        <id column="id" property="id"/>
+        <result column="app_id" property="appId"/>
+        <result column="tenant_id" property="tenantId"/>
+        <result column="group_id" property="groupId"/>
+        <result column="user_id" property="userId"/>
+        <result column="role" property="role"/>
+        <result column="created" property="created"/>
+        <result column="created_by" property="createdBy"/>
+        <result column="updated" property="updated"/>
+        <result column="updated_by" property="updatedBy"/>
+    </resultMap>
+    
+    <!-- 新增 -->
+    <insert id="add" parameterType="GroupUserMap" keyProperty="id"
+        useGeneratedKeys="true">
+        insert into group_user_map(
+            app_id,
+            tenant_id,
+            group_id,
+            user_id,
+            role,
+            created,
+            created_by,
+            updated,
+            updated_by
+        )
+        values
+        (
+            #{appId},
+            #{tenantId},
+            #{groupId},
+            #{userId},
+            #{role},
+            #{created},
+            #{createdBy},
+            #{updated},
+            #{updatedBy}
+        )
+    </insert>
+    
+    <!-- 更新 -->
+    <update id="update" parameterType="GroupUserMap">
+        update group_user_map set 
+            app_id=#{appId},
+            tenant_id=#{tenantId},
+            group_id=#{groupId},
+            user_id=#{userId},
+            role=#{role},
+            created=#{created},
+            created_by=#{createdBy},
+            updated=#{updated},
+            updated_by=#{updatedBy}
+        where 
+            id=#{id}
+    </update>
+
+    <!-- 根据ID删除 -->
+    <delete id="removeById" parameterType="int">
+        delete from group_user_map where id = #{id}
+    </delete>
+    
+    <!-- 根据条件删除 -->
+    <delete id="remove" parameterType="GroupUserMap">
+        delete from group_user_map where 1=1
+        <if test="id != null">
+            and id=#{id}
+        </if>
+        <if test="appId != null">
+            and app_id=#{appId}
+        </if>
+        <if test="tenantId != null">
+            and tenant_id=#{tenantId}
+        </if>
+        <if test="groupId != null">
+            and group_id=#{groupId}
+        </if>
+        <if test="userId != null">
+            and user_id=#{userId}
+        </if>
+        <if test="role != null">
+            and role=#{role}
+        </if>
+        <if test="created != null">
+            and created=#{created}
+        </if>
+        <if test="createdBy != null">
+            and created_by=#{createdBy}
+        </if>
+        <if test="updated != null">
+            and updated=#{updated}
+        </if>
+        <if test="updatedBy != null">
+            and updated_by=#{updatedBy}
+        </if>
+    </delete>
+
+    <!-- 根据id查询 -->
+    <select id="getById" resultMap="groupUserMapMap" parameterType="int">
+        select * from group_user_map where id =#{id}
+    </select>
+
+    <!-- 条件查询拼接 -->
+    <sql id="findResultsWhere">
+        <where>
+            <if test="params.id != null">
+                and id = #{params.id}
+            </if>
+            <if test="params.appId != null">
+                and app_id = #{params.appId}
+            </if>
+            <if test="params.tenantId != null">
+                and tenant_id = #{params.tenantId}
+            </if>
+            <if test="params.groupId != null">
+                and group_id = #{params.groupId}
+            </if>
+            <if test="params.userId != null">
+                and user_id = #{params.userId}
+            </if>
+            <if test="params.role != null">
+                and role = #{params.role}
+            </if>
+            <if test="params.created != null">
+                and created = #{params.created}
+            </if>
+            <if test="params.createdBy != null">
+                and created_by = #{params.createdBy}
+            </if>
+            <if test="params.updated != null">
+                and updated = #{params.updated}
+            </if>
+            <if test="params.updatedBy != null">
+                and updated_by = #{params.updatedBy}
+            </if>
+        </where>
+    </sql>
+    
+    <!-- 条件查询 -->
+    <select id="findResults" resultMap="groupUserMapMap" parameterType="map">
+        select * from group_user_map  
+        <include refid="findResultsWhere"></include>
+        <if test="params.page != null">
+        limit #{params.page.from}, #{params.page.size}
+        </if>
+    </select>
+    
+     <!-- 按实体查询 -->
+    <select id="findByExample" resultMap="groupUserMapMap" parameterType="GroupUserMap">
+        select * from group_user_map  
+        <include refid="findByExampleWhere"></include>
+    </select>
+    
+    <!-- 按实体查询,返回count -->
+    <select id="findByExampleCount" resultType="int" parameterType="GroupUserMap">
+        select count(1) from group_user_map  
+        <include refid="findByExampleWhere"></include>
+    </select>
+
+    <!-- 按example条件查询拼接 -->
+    <sql id="findByExampleWhere">
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="appId != null">
+                and app_id = #{appId}
+            </if>
+            <if test="tenantId != null">
+                and tenant_id = #{tenantId}
+            </if>
+            <if test="groupId != null">
+                and group_id = #{groupId}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="role != null">
+                and role = #{role}
+            </if>
+            <if test="created != null">
+                and created = #{created}
+            </if>
+            <if test="createdBy != null">
+                and created_by = #{createdBy}
+            </if>
+            <if test="updated != null">
+                and updated = #{updated}
+            </if>
+            <if test="updatedBy != null">
+                and updated_by = #{updatedBy}
+            </if>
+        </where>
+    </sql>
+
+    <!-- 条件查询结果数量 -->
+    <select id="findResultCount" resultType="int" parameterType="map">
+        select count(1) from group_user_map  
+         <include refid="findResultsWhere"></include>
+    </select>
+    
+    <!-- 批量插入 -->
+    <insert id="addBatch" parameterType="iterator" useGeneratedKeys="true">
+        insert into group_user_map(
+            app_id,
+            tenant_id,
+            group_id,
+            user_id,
+            role,
+            created,
+            created_by,
+            updated,
+            updated_by
+        )
+        values
+        <foreach collection="array" item="item" separator="," >
+        (
+            #{item.appId},
+            #{item.tenantId},
+            #{item.groupId},
+            #{item.userId},
+            #{item.role},
+            #{item.created},
+            #{item.createdBy},
+            #{item.updated},
+            #{item.updatedBy}
+        )
+        </foreach>
+    </insert>
+    
+    <select id="getUserIdsExisted" resultType="Integer" parameterType="map">
+        select user_id from group_user_map where group_id = #{params.groupId} and user_id in
+        <foreach collection="params.userIds" item="item" separator=","  >
+            (
+                #{item}
+            )
+        </foreach>
+    </select>
+    
+</mapper>
